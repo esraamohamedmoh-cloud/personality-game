@@ -2,7 +2,231 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewpo<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Discover Your College Personality</title>
+
+<style>
+  *{
+    box-sizing: border-box;
+  }
+  @media (max-width: 600px){
+  .container{
+    width: 95%;
+    padding: 14px;
+  }
+}
+
+  body{
+    margin: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: url("unnamed.jpg")
+      center/cover no-repeat fixed;
+  }
+
+  .overlay{
+    background: rgba(255, 182, 193, .25);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+  }
+
+  .container{
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    width: 95%;
+    background: rgba(255, 240, 246, .9);
+    border-radius: 22px;
+    padding: 24px 24px 28px;
+    box-shadow: 0 18px 45px rgba(255, 105, 180, .35);
+    backdrop-filter: blur(6px);
+    color:#5a004e;
+    border: 2px solid rgba(255,105,180,.35);
+  }
+
+  h1, h2{
+    margin-top: 0;
+    text-align: center;
+    color:#c2185b;
+  }
+
+  .hidden{ display:none; }
+
+  .btn{
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 14px;
+    border-radius: 16px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 700;
+    transition:.15s;
+  }
+
+  .primary{
+    background:#ff9ecd;
+    color:#5a003f;
+    box-shadow:0 8px 20px rgba(255,105,180,.45);
+  }
+
+  .primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 24px rgba(255,105,180,.6);
+  }
+
+  .option{
+    background:#fff;
+    color:#5a004e;
+    text-align:left;
+    border:1px solid rgba(255,105,180,.25);
+  }
+
+  .option:hover{ background:#ffe4ef; }
+
+  .note{
+    margin-top:12px;
+    text-align:center;
+    font-size: 13px;
+    color:#8a2b6c;
+  }
+
+  .result-box{ text-align:center; }
+
+  p{ line-height:1.5; }
+</style>
+</head>
+
+<body>
+<div class="overlay"></div>
+
+<div class="container">
+
+  <div id="welcome">
+    <h1>Hey! I’m Israa ✨💗</h1>
+    <p>
+       I’m building small cute projects to train and become a pro!
+      Try this mini game — and don’t forget to tell me your opinion!💗
+    </p>
+    <button class="btn primary" onclick="startQuiz()">Start</button>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <p class="note" id="progress"></p>
+  </div>
+
+  <div id="result" class="hidden result-box">
+    <h2>Your Personality Result 😂</h2>
+    <p id="resultText"></p>
+    <button class="btn primary" onclick="location.reload()">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  { q: "First day at college… what’s your vibe? 😂",
+    a: ["Silent mode 🫣", "Too confident 😎", "Looking for food first 🍔", "Laughing for no reason 😂"] },
+
+  { q: "Teacher: surprise quiz!",
+    a: ["I knew it 😒", "PANIC button 😭", "Guess and hope 😁", "Bathroom escape plan 🚪"] },
+
+  { q: "Phone on 1%:",
+    a: ["RUN to charger 🏃", "Airplane mode ✈️", "Accept destiny 😔", "Keep scrolling anyway 🙂"] },
+
+  { q: "Friend eats your snacks:",
+    a: ["Smile politely 🙂", "Order more 💸", "Share happily 🤝", "REVENGE mode 🥊"] },
+
+  { q: "Lecture is SUPER boring:",
+    a: ["Pretty notes 🎨", "Random doodles ✏️", "Sleep pro 😴", "Ask weird questions 🤓"] },
+
+  { q: "Project due tomorrow:",
+    a: ["Start calmly 👍", "Do it at 2 AM 😭", "Teamwork hero 💪", "Pray first 🙏"] },
+
+  { q: "Group work:",
+    a: ["Leader mode 👑", "Idea machine 💡", "Quiet worker 🤫", "Snack manager 🍟"] },
+
+  { q: "Break time:",
+    a: ["Library 📚", "Café vibes ☕", "Walk & talk 🚶", "Quick nap 😴"] },
+
+  { q: "Forgot your pen:",
+    a: ["Borrow fast ✋", "Use anything ✏️", "Phone notes 📱", "Ask everyone 😆"] },
+
+  { q: "Future dream:",
+    a: ["Top job 💼", "Own business ✨", "Travel a lot 🌍", "Just be happy 😌"] }
+];
+
+let current = 0;
+
+function startQuiz(){
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
+}
+
+function showQuestion(){
+  const q = questions[current];
+  document.getElementById("question").textContent = q.q;
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  q.a.forEach(choice=>{
+    const btn = document.createElement("button");
+    btn.className = "btn option";
+    btn.textContent = choice;
+    btn.onclick = () => handleAnswer();
+    optionsDiv.appendChild(btn);
+  });
+
+  document.getElementById("progress").textContent =
+    `Question ${current + 1} of ${questions.length}`;
+}
+
+function handleAnswer(){
+
+  alert("Thanks for continuing! 💗✨");
+
+  current++;
+  if(current < questions.length){
+    showQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function finishQuiz(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  const messages = [
+    "😂 Chaos Legend — every day is a comedy!",
+    "😎 Chill Master — zero stress, maximum vibe!",
+    "🤡 Funny Human — joke first, think later!",
+    "🧠 Smart… but sometimes lazy (dangerous)!"
+  ];
+
+  const result = messages[Math.floor(Math.random() * messages.length)];
+  document.getElementById("resultText").textContent = result;
+}
+</script>
+</body>
+</html>
+rt" content="width=device-width, initial-scale=1.0" />
 <title>Discover Your College Personality</title>
 
 <style>
@@ -222,3 +446,4 @@ function finishQuiz(){
 </script>
 </body>
 </html>
+
